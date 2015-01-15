@@ -1,0 +1,3 @@
+amz_product_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: AMZProductBundle:Default:index }

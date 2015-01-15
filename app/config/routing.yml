@@ -1,0 +1,4 @@
+amz_product:
+    resource: "@AMZProductBundle/Resources/config/routing.yml"
+    prefix:   /
+
