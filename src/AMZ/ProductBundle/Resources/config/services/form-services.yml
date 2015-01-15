@@ -1,0 +1,9 @@
+services:
+    amz_product.form.type.product:
+        class: AMZ\ProductBundle\Form\ProductType
+        tags:
+            - { name: form.type, alias: amz_productbundle_product}
+
+    amz_product.form_generator:
+        class: AMZ\ProductBundle\Form\ProductFormGenerator
+        arguments: ["@router", "@form.factory"]

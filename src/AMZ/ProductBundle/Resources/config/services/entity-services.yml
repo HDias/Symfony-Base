@@ -1,0 +1,10 @@
+services:
+    doctrine.arraycollection:
+        class: Doctrine\Common\Collections\ArrayCollection
+
+    amz_product.entity.category:
+        class: AMZ\ProductBundle\Entity\Category
+        arguments: ["@doctrine.arraycollection"]
+
+    amz_product.entity.product:
+        class: AMZ\ProductBundle\Entity\Product
