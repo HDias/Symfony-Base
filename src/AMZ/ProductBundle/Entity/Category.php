@@ -2,7 +2,7 @@
 
 namespace AMZ\ProductBundle\Entity;
 
-use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Collection as CollectionInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -50,7 +50,7 @@ class Category
      */
     private $products;
 
-    function __construct(Collection $collection)
+    function __construct(CollectionInterface $collection)
     {
         $this->product = $collection;
     }

@@ -1,0 +1,10 @@
+services:
+    amz_product.form.type.product:
+        class: AMZ\ProductBundle\Form\ProductType
+        tags:
+            - { name: form.type, alias: form_product}
+
+    amz_product.form.type.category:
+        class: AMZ\ProductBundle\Form\CategoryType
+        tags:
+            - { name: form.type, alias: form_category}
