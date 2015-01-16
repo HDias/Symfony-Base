@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="AMZ\ProductBundle\Entity\ProductRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Product
 {
@@ -38,7 +39,7 @@ class Product
     /**
      * @var float
      *
-     * @ORM\Column(name="price", type="float")
+     * @ORM\Column(name="price", type="float", precision=9, scale=2)
      */
     private $price;
 
@@ -67,7 +68,7 @@ class Product
      * @var Category
      *
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category;
 
@@ -154,12 +155,13 @@ class Product
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @ORM\PrePersist
+     * @internal param \DateTime $createdAt
      * @return Product
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt()
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTime('now');
 
         return $this;
     }
@@ -177,12 +179,14 @@ class Product
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * @internal param \DateTime $updatedAt
      * @return Product
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt()
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = new \DateTime('now');
 
         return $this;
     }
@@ -200,12 +204,13 @@ class Product
     /**
      * Set isActive
      *
-     * @param boolean $isActive
+     * @ORM\PrePersist
+     * @internal param bool $isActive
      * @return Product
      */
-    public function setIsActive($isActive)
+    public function setIsActive()
     {
-        $this->isActive = $isActive;
+        $this->isActive = true;
 
         return $this;
     }
