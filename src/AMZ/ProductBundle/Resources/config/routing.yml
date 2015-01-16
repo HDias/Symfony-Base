@@ -1,4 +1,3 @@
-amz_product_homepage:
-    resource: "@AMZProductBundle/Resources/config/routings/product.yml"
-    prefix: /produtos
-
+amz_product_product:
+    resource: "@AMZProductBundle/Resources/config/routing/product.yml"
+    prefix:   /product

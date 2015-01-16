@@ -36,6 +36,6 @@ class CategoryType extends AbstractType
      */
     public function getName()
     {
-        return 'form_category';
+        return 'amz_productbundle_category';
     }
 }

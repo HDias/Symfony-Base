@@ -1,0 +1,30 @@
+product:
+    path:     /
+    defaults: { _controller: "AMZProductBundle:Product:index" }
+
+product_show:
+    path:     /{id}/show
+    defaults: { _controller: "AMZProductBundle:Product:show" }
+
+product_new:
+    path:     /new
+    defaults: { _controller: "AMZProductBundle:Product:new" }
+
+product_create:
+    path:     /create
+    defaults: { _controller: "AMZProductBundle:Product:create" }
+    requirements: { _method: post }
+
+product_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AMZProductBundle:Product:edit" }
+
+product_update:
+    path:     /{id}/update
+    defaults: { _controller: "AMZProductBundle:Product:update" }
+    requirements: { _method: post|put }
+
+product_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AMZProductBundle:Product:delete" }
+    requirements: { _method: post|delete }
