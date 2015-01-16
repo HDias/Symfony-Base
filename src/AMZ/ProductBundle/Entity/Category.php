@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="AMZ\ProductBundle\Entity\CategoryRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Category
 {
@@ -91,12 +92,13 @@ class Category
     /**
      * Set createdAt
      *
+     * @ORM\PrePersist
      * @param \DateTime $createdAt
      * @return Category
      */
     public function setCreatedAt($createdAt)
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTime('now');
 
         return $this;
     }
@@ -114,12 +116,14 @@ class Category
     /**
      * Set updatedAt
      *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
      * @param \DateTime $updatedAt
      * @return Category
      */
     public function setUpdatedAt($updatedAt)
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = new \DateTime('now');
 
         return $this;
     }
@@ -165,5 +169,10 @@ class Category
     public function getProducts()
     {
         return $this->products;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->getName();
     }
 }

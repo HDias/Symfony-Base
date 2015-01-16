@@ -1,3 +1,7 @@
+amz_product_product_category:
+    resource: "@AMZProductBundle/Resources/config/routing/category.yml"
+    prefix:   /product/category
+
 amz_product_product:
     resource: "@AMZProductBundle/Resources/config/routing/product.yml"
     prefix:   /product
