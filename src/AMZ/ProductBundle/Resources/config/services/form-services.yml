@@ -1,8 +1,19 @@
 services:
+    amz_product.form.product:
+        factory_method: createNamed
+        factory_service: form.factory
+        class: Symfony\Component\Form\Form
+        arguments:
+            - product_form                      # Nome do Form
+            - amz_productbundle_product         # Alias do Form Type
+            - @amz_product.entity.product       # service da Entity que terão os dados vinculados
+
     amz_product.form.type.product:
         class: AMZ\ProductBundle\Form\ProductType
+        arguments: ["@router"]
         tags:
             - { name: form.type, alias: amz_productbundle_product}
+
 
     amz_product.form.type.category:
         class: AMZ\ProductBundle\Form\CategoryType

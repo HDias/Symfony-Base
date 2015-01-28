@@ -25,5 +25,6 @@ class AMZProductExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
         $loader->load('entity-services.yml');
         $loader->load('form-services.yml');
+        $loader->load('services.yml');
     }
 }

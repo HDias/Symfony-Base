@@ -3,7 +3,9 @@
 {% block body -%}
     <h1>Product creation</h1>
 
-    {{ form(form) }}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 
         <ul class="record_actions">
     <li>

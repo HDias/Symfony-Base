@@ -72,7 +72,6 @@ class Product
      */
     private $category;
 
-
     /**
      * Get id
      *
@@ -204,13 +203,13 @@ class Product
     /**
      * Set isActive
      *
-     * @ORM\PrePersist
      * @internal param bool $isActive
+     * @param $isActive
      * @return Product
      */
-    public function setIsActive()
+    public function setIsActive($isActive)
     {
-        $this->isActive = true;
+        $this->isActive = $isActive;
 
         return $this;
     }

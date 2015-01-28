@@ -1,0 +1,4 @@
+services:
+    amz_product.service.product:
+        class: AMZ\ProductBundle\Service\ProductService
+        arguments: ["@doctrine.orm.entity_manager"]

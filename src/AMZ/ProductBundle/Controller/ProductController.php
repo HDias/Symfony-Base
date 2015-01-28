@@ -14,7 +14,6 @@ use AMZ\ProductBundle\Form\ProductType;
  */
 class ProductController extends Controller
 {
-
     /**
      * Lists all Product entities.
      *
@@ -32,17 +31,23 @@ class ProductController extends Controller
     /**
      * Creates a new Product entity.
      *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function createAction(Request $request)
     {
-        $entity = new Product();
-        $form = $this->createCreateForm($entity);
+        $entity = $this->get('amz_product.entity.product');
+        $form = $this->get('amz_product.form.product');
+
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $productService = $this->get('amz_product.service.product');
+            $productService->insertEntity($form->getData());
+
+//            $em = $this->getDoctrine()->getManager();
+//            $em->persist($entity);
+//            $em->flush();
 
             return $this->redirect($this->generateUrl('product_show', array('id' => $entity->getId())));
         }
@@ -54,32 +59,14 @@ class ProductController extends Controller
     }
 
     /**
-     * Creates a form to create a Product entity.
-     *
-     * @param Product $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Product $entity)
-    {
-        $form = $this->createForm(new ProductType(), $entity, array(
-            'action' => $this->generateUrl('product_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
-
-    /**
      * Displays a form to create a new Product entity.
      *
      */
     public function newAction()
     {
-        $entity = new Product();
-        $form   = $this->createCreateForm($entity);
+        $entity = $this->get('amz_product.entity.product');
+//        $form   = $this->createCreateForm($entity);
+        $form = $this->get('amz_product.form.product');
 
         return $this->render('AMZProductBundle:Product:new.html.twig', array(
             'entity' => $entity,
