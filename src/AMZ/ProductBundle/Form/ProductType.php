@@ -10,13 +10,6 @@ use Symfony\Component\Routing\RouterInterface;
 
 class ProductType extends AbstractType
 {
-    protected $router;
-
-    function __construct(RouterInterface $router)
-    {
-        $this->router = $router;
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -24,8 +17,6 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->setAction($this->generateUrl('product_create'))
-            ->setMethod('POST')
             ->add('name')
             ->add('description')
             ->add('price')
@@ -50,10 +41,5 @@ class ProductType extends AbstractType
     public function getName()
     {
         return 'amz_productbundle_product';
-    }
-
-    public function generateUrl($route, $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
-    {
-        return $this->router->generate($route, $parameters, $referenceType);
     }
 }

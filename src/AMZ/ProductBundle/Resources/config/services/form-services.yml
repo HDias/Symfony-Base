@@ -10,12 +10,10 @@ services:
 
     amz_product.form.type.product:
         class: AMZ\ProductBundle\Form\ProductType
-        arguments: ["@router"]
         tags:
             - { name: form.type, alias: amz_productbundle_product}
 
-
-    amz_product.form.type.category:
-        class: AMZ\ProductBundle\Form\CategoryType
-        tags:
-            - { name: form.type, alias: amz_productbundle_category}
+    amz_product.form_generator:
+        class: AMZ\ProductBundle\Form\FormGenerator
+        calls:
+            - [setContainer, ["@service_container"]]

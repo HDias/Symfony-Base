@@ -8,7 +8,7 @@ Neste Bundle Symfony foi:
  ```
  - Feito o refatoramento do: ProductController e classes ligadas a sua estrutura: Entities, Forms e etc.
  Usando alguns padrões de desenvolvimento como Dependecy Inversion, Single Responsability.
- O CategoryController foi deixado com o código original gerado pelo comando acima citado.
+ - O CategoryController foi deixado com o código original gerado pelo comando acima citado.
 
 
 ##Inside
