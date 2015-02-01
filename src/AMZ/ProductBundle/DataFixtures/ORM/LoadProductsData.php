@@ -31,7 +31,9 @@ class LoadProductsData extends AbstractFixture implements OrderedFixtureInterfac
             }
 
             $product = new Product();
-            $product->setName($this->faker->name)
+            $product
+                ->setName($this->faker->name)
+                ->setIsActive(true)
                 ->setDescription($this->faker->text(200))
                 ->setPrice($this->faker->randomFloat(2, 1, 500))
                 ->setCategory($category);

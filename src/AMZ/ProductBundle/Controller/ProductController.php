@@ -37,9 +37,9 @@ class ProductController extends Controller
     public function createAction(Request $request)
     {
         $entity = $this->get('amz_product.entity.product');
-        $formGenerator = $this->get('amz_product.form_generator');
 
-        $form = $formGenerator->createCreateForm($entity);
+        $formGenerator  = $this->get('amz_product.form_generator');
+        $form           = $formGenerator->generateCreateForm($entity, 'product_create', 'POST');
 
         $form->handleRequest($request);
 
@@ -47,10 +47,6 @@ class ProductController extends Controller
             $productService = $this->get('amz_product.service.product');
 
             $productService->insertEntity($form->getData());
-
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($entity);
-//            $em->flush();
 
             return $this->redirect($this->generateUrl('product_show', array('id' => $form->getData()->getId())));
         }
@@ -68,12 +64,10 @@ class ProductController extends Controller
     public function newAction()
     {
         $entity = $this->get('amz_product.entity.product');
-//        $form   = $this->createCreateForm($entity);
 
         $formGenerator = $this->get('amz_product.form_generator');
 
-        $form = $formGenerator->createCreateForm($entity);
-//        $form = $this->get('amz_product.form.product');
+        $form = $formGenerator->generateCreateForm($entity, 'product_create', 'POST');
 
         return $this->render('AMZProductBundle:Product:new.html.twig', array(
             'entity' => $entity,
