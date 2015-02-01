@@ -13,6 +13,8 @@ class ProductFormGenerator extends FormGeneratorProvider
         parent::__construct($router, $formFactory);
 
         $this->formType = 'amz_productbundle_product';
+        $this->createRoute = 'product_create';
+        $this->editRoute = 'product_update';
         $this->deleteRoute = 'product_delete';
     }
 }

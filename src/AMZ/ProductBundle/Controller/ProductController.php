@@ -89,7 +89,9 @@ class ProductController extends Controller
             throw $this->createNotFoundException('Unable to find Product entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $formGenerator  = $this->get('amz_product.form_generator');
+        $deleteForm     = $formGenerator->generateDeleteForm($id);
+        //$deleteForm = $this->createDeleteForm($id);
 
         return $this->render('AMZProductBundle:Product:show.html.twig', array(
             'entity'      => $entity,
@@ -111,8 +113,11 @@ class ProductController extends Controller
             throw $this->createNotFoundException('Unable to find Product entity.');
         }
 
+        $formGenerator  = $this->get('amz_product.form_generator');
+
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+        //$deleteForm = $this->createDeleteForm($id);
+        $deleteForm     = $formGenerator->generateDeleteForm($id);
 
         return $this->render('AMZProductBundle:Product:edit.html.twig', array(
             'entity'      => $entity,
@@ -153,7 +158,10 @@ class ProductController extends Controller
             throw $this->createNotFoundException('Unable to find Product entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $formGenerator  = $this->get('amz_product.form_generator');
+        $deleteForm     = $formGenerator->generateDeleteForm($id);
+
+        //$deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
@@ -175,7 +183,10 @@ class ProductController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
+        $formGenerator  = $this->get('amz_product.form_generator');
+        $form           = $formGenerator->generateDeleteForm($id);
+
+        //$form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
