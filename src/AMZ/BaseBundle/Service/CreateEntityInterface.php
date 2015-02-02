@@ -1,6 +1,6 @@
 <?php
 
-namespace AMZ\ProductBundle\Service;
+namespace AMZ\BaseBundle\Service;
 
 interface CreateEntityInterface
 {

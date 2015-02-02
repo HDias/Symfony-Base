@@ -5,9 +5,6 @@ namespace AMZ\ProductBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use AMZ\ProductBundle\Entity\Product;
-use AMZ\ProductBundle\Form\ProductType;
-
 /**
  * Product controller.
  *
@@ -20,9 +17,9 @@ class ProductController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('AMZProductBundle:Product')->findAll();
+        //FindAll
+        $productService = $this->get('amz_product.service.product');
+        $entities       = $productService->findAll();
 
         return $this->render('AMZProductBundle:Product:index.html.twig', array(
             'entities' => $entities,
@@ -72,15 +69,18 @@ class ProductController extends Controller
     /**
      * Finds and displays a Product entity.
      *
+     * @param $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AMZProductBundle:Product')->find($id);
+        //FindOne
+        $productService = $this->get('amz_product.service.product');
+        $entity         = $productService->find($id);
 
         if ( ! $entity) {
-            throw $this->createNotFoundException('Unable to find Product entity.', new \OutOfBoundsException()););
+            throw $this->createNotFoundException('Unable to find Product entity.', new \OutOfBoundsException());
         }
 
         $formGenerator = $this->get('amz_product.form_generator');
@@ -95,11 +95,15 @@ class ProductController extends Controller
     /**
      * Displays a form to edit an existing Product entity.
      *
+     * @param $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function editAction($id)
     {
-        $em     = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('AMZProductBundle:Product')->find($id);
+        //FindOne
+        $productService = $this->get('amz_product.service.product');
+        $entity         = $productService->find($id);
 
         if ( ! $entity) {
             throw $this->createNotFoundException('Unable to find Product entity.', new \OutOfBoundsException());
@@ -118,17 +122,20 @@ class ProductController extends Controller
 
     /**
      * Edits an existing Product entity.
+     *
      * @param Request $request
      * @param $id
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function updateAction(Request $request, $id)
     {
-        $em     = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('AMZProductBundle:Product')->find($id);
+        //FindOne
+        $productService = $this->get('amz_product.service.product');
+        $entity         = $productService->find($id);
 
         if ( ! $entity) {
-            throw $this->createNotFoundException('Unable to find Product entity.', new \OutOfBoundsException()););
+            throw $this->createNotFoundException('Unable to find Product entity.', new \OutOfBoundsException());
         }
 
         $formGenerator  = $this->get('amz_product.form_generator');
@@ -140,7 +147,8 @@ class ProductController extends Controller
             throw $this->createNotFoundException('Valores inválidos para os Campos', new \UnexpectedValueException());
         }
 
-        $em->flush();
+        //Update Entity
+        $productService->updateEntity();
 
         return $this->redirect($this->generateUrl('product_edit', array('id' => $id)));
     }
@@ -151,32 +159,18 @@ class ProductController extends Controller
      */
     public function deleteAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('AMZProductBundle:Product')->find($id);
+        //FindOne
+        $productService = $this->get('amz_product.service.product');
+        $entity         = $productService->find($id);
 
         if ( ! $entity) {
-            throw $this->createNotFoundException('Unable to find Product entity.', new \OutOfBoundsException()););
+            throw $this->createNotFoundException('Unable to find Product entity.', new \OutOfBoundsException());
         }
 
-        $em->remove($entity);
-        $em->flush();
+        // Remove entity from database
+        $productService = $this->get('amz_product.service.product');
+        $productService ->updateEntity($entity);
 
         return $this->redirect($this->generateUrl('product'));
-    }
-
-    /**
-     * Creates a form to delete a Product entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('product_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm();
     }
 }
