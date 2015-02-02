@@ -28,6 +28,7 @@ class ProductController extends Controller
             'entities' => $entities,
         ));
     }
+
     /**
      * Creates a new Product entity.
      *
@@ -36,25 +37,20 @@ class ProductController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity = $this->get('amz_product.entity.product');
-
+        $entity         = $this->get('amz_product.entity.product');
         $formGenerator  = $this->get('amz_product.form_generator');
-        $form           = $formGenerator->generateCreateForm($entity, 'product_create', 'POST');
+        $form           = $formGenerator->generateCreateForm($entity);
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $productService = $this->get('amz_product.service.product');
-
-            $productService->insertEntity($form->getData());
-
-            return $this->redirect($this->generateUrl('product_show', array('id' => $form->getData()->getId())));
+        if ( ! $form->isValid()) {
+            throw $this->createNotFoundException('Valores inválidos para os Campos', new \UnexpectedValueException());
         }
 
-        return $this->render('AMZProductBundle:Product:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+        $productService = $this->get('amz_product.service.product');
+        $productService->insertEntity($form->getData());
+
+        return $this->redirect($this->generateUrl('product_show', array('id' => $form->getData()->getId())));
     }
 
     /**
@@ -63,15 +59,13 @@ class ProductController extends Controller
      */
     public function newAction()
     {
-        $entity = $this->get('amz_product.entity.product');
-
-        $formGenerator = $this->get('amz_product.form_generator');
-
-        $form = $formGenerator->generateCreateForm($entity, 'product_create', 'POST');
+        $entity         = $this->get('amz_product.entity.product');
+        $formGenerator  = $this->get('amz_product.form_generator');
+        $form           = $formGenerator->generateCreateForm($entity);
 
         return $this->render('AMZProductBundle:Product:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         ));
     }
 
@@ -85,16 +79,15 @@ class ProductController extends Controller
 
         $entity = $em->getRepository('AMZProductBundle:Product')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Product entity.');
+        if ( ! $entity) {
+            throw $this->createNotFoundException('Unable to find Product entity.', new \OutOfBoundsException()););
         }
 
-        $formGenerator  = $this->get('amz_product.form_generator');
-        $deleteForm     = $formGenerator->generateDeleteForm($id);
-        //$deleteForm = $this->createDeleteForm($id);
+        $formGenerator = $this->get('amz_product.form_generator');
+        $deleteForm = $formGenerator->generateDeleteForm($id);
 
         return $this->render('AMZProductBundle:Product:show.html.twig', array(
-            'entity'      => $entity,
+            'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -105,101 +98,68 @@ class ProductController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
-
+        $em     = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AMZProductBundle:Product')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Product entity.');
+        if ( ! $entity) {
+            throw $this->createNotFoundException('Unable to find Product entity.', new \OutOfBoundsException());
         }
 
         $formGenerator  = $this->get('amz_product.form_generator');
-
-        $editForm = $this->createEditForm($entity);
-        //$deleteForm = $this->createDeleteForm($id);
+        $editForm       = $formGenerator->generateEditForm($entity);
         $deleteForm     = $formGenerator->generateDeleteForm($id);
 
         return $this->render('AMZProductBundle:Product:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-    * Creates a form to edit a Product entity.
-    *
-    * @param Product $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Product $entity)
-    {
-        $form = $this->createForm(new ProductType(), $entity, array(
-            'action' => $this->generateUrl('product_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
-    /**
      * Edits an existing Product entity.
-     *
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function updateAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-
+        $em     = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AMZProductBundle:Product')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Product entity.');
+        if ( ! $entity) {
+            throw $this->createNotFoundException('Unable to find Product entity.', new \OutOfBoundsException()););
         }
 
         $formGenerator  = $this->get('amz_product.form_generator');
-        $deleteForm     = $formGenerator->generateDeleteForm($id);
+        $editForm       = $formGenerator->generateEditForm($entity);
 
-        //$deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('product_edit', array('id' => $id)));
+        if ( ! $editForm->isValid()) {
+            throw $this->createNotFoundException('Valores inválidos para os Campos', new \UnexpectedValueException());
         }
 
-        return $this->render('AMZProductBundle:Product:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('product_edit', array('id' => $id)));
     }
+
     /**
      * Deletes a Product entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
-        $formGenerator  = $this->get('amz_product.form_generator');
-        $form           = $formGenerator->generateDeleteForm($id);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AMZProductBundle:Product')->find($id);
 
-        //$form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AMZProductBundle:Product')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Product entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if ( ! $entity) {
+            throw $this->createNotFoundException('Unable to find Product entity.', new \OutOfBoundsException()););
         }
+
+        $em->remove($entity);
+        $em->flush();
 
         return $this->redirect($this->generateUrl('product'));
     }
@@ -217,7 +177,6 @@ class ProductController extends Controller
             ->setAction($this->generateUrl('product_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+            ->getForm();
     }
 }

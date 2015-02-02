@@ -17,18 +17,17 @@ class FormGeneratorProvider extends FormGeneratorAware
      * Creates a form to create a entity.
      *
      * @param Object $entity The entity
-     * @param string $method The request method
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    public function generateCreateForm($entity, $method)
+    public function generateCreateForm($entity)
     {
         return $this->createForm(
             $this->formType,
             $entity,
             array(
                 'action' => $this->generateUrl($this->createRoute),
-                'method' => $method,
+                'method' => 'POST',
             )
         );
     }
@@ -37,18 +36,17 @@ class FormGeneratorProvider extends FormGeneratorAware
      * Creates a form to create a entity.
      *
      * @param Object $entity The entity
-     * @param string $method The request method
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    public function generateEditForm($entity, $method)
+    public function generateEditForm($entity)
     {
         return $this->createForm(
             $this->formType,
             $entity,
             array(
                 'action' => $this->generateUrl($this->editRoute, array('id' => $entity->getId())),
-                'method' => $method,
+                'method' => 'PUT',
             )
         );
     }
