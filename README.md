@@ -2,11 +2,11 @@
 
 Neste Bundle Symfony foi:
 
- - CRUD gerado pelo symfony automáticamente
+ - CRUD gerado pelo symfony automaticamente
  ```sh
  $ php app\console generate:doctrine:crud --entity=AMZProductBundle:Product
  ```
- - Feito o refatoramento do: ProductController e classes ligadas a sua estrutura: Entities, Forms e etc.
+ - Feito o refatoramento do: ProductController e classes ligadas à sua estrutura: Entities, Forms e etc.
  Aplicado princípios SOLID e Object Calisthenics
  - O CategoryController foi deixado com o código original gerado generate:doctrine:crud.
 
