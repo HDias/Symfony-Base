@@ -1,5 +1,10 @@
 services:
-    amz_product.service.product:
-        class: AMZ\ProductBundle\Service\ProductService
+    amz_product.service.product_persist:
+        class: AMZ\ProductBundle\Service\ProductServicePersist
+        calls:
+            - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+
+    amz_product.service.product_find:
+        class: AMZ\ProductBundle\Service\ProductServiceFind
         calls:
             - [setEntityManager, ["@doctrine.orm.entity_manager"]]

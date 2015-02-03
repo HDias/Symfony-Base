@@ -7,8 +7,8 @@ Neste Bundle Symfony foi:
  $ php app\console generate:doctrine:crud --entity=AMZProductBundle:Product
  ```
  - Feito o refatoramento do: ProductController e classes ligadas a sua estrutura: Entities, Forms e etc.
- Usando alguns padrões de desenvolvimento como Dependecy Inversion, Single Responsability.
- - O CategoryController foi deixado com o código original gerado pelo comando acima citado.
+ Aplicado princípios SOLID e Object Calisthenics
+ - O CategoryController foi deixado com o código original gerado generate:doctrine:crud.
 
 
 ##Inside
@@ -27,5 +27,7 @@ Pacotes adicionais:
 
 ### Todo's
 
- -
+ - Add Flash Message
+ - Verify Exceptions
+ - Error Page
 

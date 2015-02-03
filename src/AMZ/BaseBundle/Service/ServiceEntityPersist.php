@@ -2,13 +2,11 @@
 
 namespace AMZ\BaseBundle\Service;
 
-class ServicePersist extends ServiceAware implements
+class ServiceEntityPersist extends ServiceAware implements
         CreateEntityInterface,
         EditEntityInterface,
         DeleteEntityInterface
 {
-
-
     /**
      * {@inheritDoc}
      */

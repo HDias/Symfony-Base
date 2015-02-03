@@ -18,7 +18,7 @@ class ProductController extends Controller
     public function indexAction()
     {
         //FindAll
-        $productService = $this->get('amz_product.service.product');
+        $productService = $this->get('amz_product.service.product_find');
         $entities       = $productService->findAll();
 
         return $this->render('AMZProductBundle:Product:index.html.twig', array(
@@ -44,7 +44,7 @@ class ProductController extends Controller
             throw $this->createNotFoundException('Valores inválidos para os Campos', new \UnexpectedValueException());
         }
 
-        $productService = $this->get('amz_product.service.product');
+        $productService = $this->get('amz_product.service.product_persist');
         $productService->insertEntity($form->getData());
 
         return $this->redirect($this->generateUrl('product_show', array('id' => $form->getData()->getId())));
@@ -76,7 +76,7 @@ class ProductController extends Controller
     public function showAction($id)
     {
         //FindOne
-        $productService = $this->get('amz_product.service.product');
+        $productService = $this->get('amz_product.service.product_find');
         $entity         = $productService->find($id);
 
         if ( ! $entity) {
@@ -102,7 +102,7 @@ class ProductController extends Controller
     public function editAction($id)
     {
         //FindOne
-        $productService = $this->get('amz_product.service.product');
+        $productService = $this->get('amz_product.service.product_find');
         $entity         = $productService->find($id);
 
         if ( ! $entity) {
@@ -131,8 +131,8 @@ class ProductController extends Controller
     public function updateAction(Request $request, $id)
     {
         //FindOne
-        $productService = $this->get('amz_product.service.product');
-        $entity         = $productService->find($id);
+        $productServiceFind = $this->get('amz_product.service.product_find');
+        $entity         = $productServiceFind->find($id);
 
         if ( ! $entity) {
             throw $this->createNotFoundException('Unable to find Product entity.', new \OutOfBoundsException());
@@ -148,7 +148,8 @@ class ProductController extends Controller
         }
 
         //Update Entity
-        $productService->updateEntity();
+        $productServicePersist = $this->get('amz_product.service.product_persist');
+        $productServicePersist->updateEntity();
 
         return $this->redirect($this->generateUrl('product_edit', array('id' => $id)));
     }
@@ -160,16 +161,16 @@ class ProductController extends Controller
     public function deleteAction($id)
     {
         //FindOne
-        $productService = $this->get('amz_product.service.product');
-        $entity         = $productService->find($id);
+        $productServiceFind = $this->get('amz_product.service.product_find');
+        $entity             = $productServiceFind->find($id);
 
         if ( ! $entity) {
             throw $this->createNotFoundException('Unable to find Product entity.', new \OutOfBoundsException());
         }
 
         // Remove entity from database
-        $productService = $this->get('amz_product.service.product');
-        $productService ->updateEntity($entity);
+        $productServicePersist = $this->get('amz_product.service.product_persist');
+        $productServicePersist->removeEntity($entity);
 
         return $this->redirect($this->generateUrl('product'));
     }

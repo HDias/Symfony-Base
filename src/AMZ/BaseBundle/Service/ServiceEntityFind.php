@@ -1,12 +1,17 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: hdias
+ * Date: 02/02/15
+ * Time: 23:57
+ */
 
-namespace AMZ\ProductBundle\Service;
+namespace AMZ\BaseBundle\Service;
 
-use AMZ\BaseBundle\Service\ServicePersist;
 
-class ProductService extends ServicePersist
+class ServiceEntityFind extends ServiceAware
 {
-    protected $entity = 'AMZProductBundle:Product';
+    protected $entity;
 
     public function findAll()
     {
@@ -35,4 +40,5 @@ class ProductService extends ServicePersist
         return $this->getEm()
             ->getReference($this->entity, $id);
     }
+
 }
