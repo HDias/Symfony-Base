@@ -2,7 +2,7 @@
 
 Neste Bundle Symfony foi:
 
- - CRUD gerado pelo symfony automaticamente
+ - Gerado o CRUD pelo symfony automaticamente com o comando abaixo:
  ```sh
  $ php app\console generate:doctrine:crud --entity=AMZProductBundle:Product
  ```
@@ -30,4 +30,5 @@ Pacotes adicionais:
  - Add Flash Message
  - Verify Exceptions
  - Error Page
+ - Translation
 
